@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import { Transform } from 'class-transformer';
-import { IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 import { EConfigKeys } from 'src/helpers/constants';
 import { validateObjectAgainstType } from 'src/helpers/validate-object-against-type';
 
@@ -20,6 +20,10 @@ export class DatabaseConfig {
 
   @IsString()
   POSTGRES_DB: string;
+
+  @IsBoolean()
+  @Transform(({ value }: { value: string }) => value === 'true')
+  POSTGRES_SYNC: boolean;
 }
 
 export default registerAs(EConfigKeys.DATABASE, async () => {
