@@ -1,5 +1,6 @@
 import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../database/base-entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -20,9 +21,6 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', nullable: true })
   phone: string | null;
 
-  @Column({ default: false })
-  isPhoneVerified: boolean;
-
   // Profile fields
   @Column({ type: 'text', nullable: true })
   address: string | null;
@@ -40,21 +38,19 @@ export class User extends BaseEntity {
   companyName: string | null;
 
   @Column({ type: 'varchar', unique: true, nullable: true })
-  username: string | null;
-
-  @Column({ type: 'varchar', unique: true, nullable: true })
   taxCode: string | null;
 
   @Column({ default: true })
   isActive: boolean;
 
   @Column({ nullable: true, type: 'timestamptz' })
-  bannedUntil?: Date;
+  bannedUntil: Date | null;
 
   @Column({ type: 'varchar', nullable: true })
-  banReason?: string;
+  banReason: string | null;
 
   @Column()
+  @Exclude()
   hashedPassword: string;
 
   // Relationships can be added here in the future
