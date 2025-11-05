@@ -18,7 +18,7 @@ import { EConfigKeys } from './helpers/constants';
     }),
     JwtModule.registerAsync({
       global: true,
-      inject: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (config: ConfigService) => {
         const authenticationConfig = config.get<AuthenticationConfig>(
           EConfigKeys.AUTHENTICATION,

@@ -1,0 +1,97 @@
+UserResponse:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      description: Unique user identifier
+      example: "550e8400-e29b-41d4-a716-446655440000"
+    email:
+      type: string
+      format: email
+      description: User's email address
+      example: "john.doe@example.com"
+    emailVerified:
+      type: boolean
+      description: Whether the email has been verified
+      example: false
+    emailVerificationToken:
+      type: string
+      nullable: true
+      description: Token for email verification (null if verified or not set)
+      example: null
+    verifiedAt:
+      type: string
+      format: date-time
+      nullable: true
+      description: Timestamp when email was verified
+      example: null
+    phone:
+      type: string
+      nullable: true
+      description: User's phone number
+      example: "+1234567890"
+    isPhoneVerified:
+      type: boolean
+      description: Whether the phone number has been verified
+      example: false
+    address:
+      type: string
+      nullable: true
+      description: User's address
+      example: "123 Main St, City, State 12345"
+    avatarUrl:
+      type: string
+      nullable: true
+      description: URL to user's avatar image
+      example: null
+    bio:
+      type: string
+      nullable: true
+      description: User's biography/description
+      example: null
+    fullName:
+      type: string
+      nullable: true
+      description: User's full name
+      example: "John Doe"
+    companyName:
+      type: string
+      nullable: true
+      description: Company name
+      example: "Tech Solutions Inc"
+    username:
+      type: string
+      nullable: true
+      description: Unique username (if set)
+      example: null
+    taxCode:
+      type: string
+      nullable: true
+      description: Tax identification code
+      example: "TAX123456789"
+    isActive:
+      type: boolean
+      description: Whether the user account is active
+      example: true
+    bannedUntil:
+      type: string
+      format: date-time
+      nullable: true
+      description: Timestamp until when user is banned
+      example: null
+    banReason:
+      type: string
+      nullable: true
+      description: Reason for ban (if banned)
+      example: null
+    createdAt:
+      type: string
+      format: date-time
+      description: Account creation timestamp
+      example: "2025-11-05T10:30:00.000Z"
+    updatedAt:
+      type: string
+      format: date-time
+      description: Last update timestamp
+      example: "2025-11-05T10:30:00.000Z"

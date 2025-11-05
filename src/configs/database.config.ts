@@ -3,6 +3,8 @@ import { Transform } from 'class-transformer';
 import { IsBoolean, IsNumber, IsString } from 'class-validator';
 import { EConfigKeys } from 'src/helpers/constants';
 import { validateObjectAgainstType } from 'src/helpers/validate-object-against-type';
+import * as envConfig from 'dotenv';
+envConfig.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
 export class DatabaseConfig {
   @IsString()

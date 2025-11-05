@@ -1,0 +1,142 @@
+user_register:
+  post:
+    tags:
+      - User Management
+    summary: Register a new user
+    description: |
+      Creates a new user account in the system. This endpoint accepts user information
+      including email, password, and optional profile details.
+      
+      **Requirements:**
+      - Email must be unique and valid
+      - Password must meet strong password requirements
+      - Phone number must be in valid international format (if provided)
+      
+      **Validation Rules:**
+      - Email: Must be a valid email format and unique in the system
+      - Password: Must contain at least 8 characters with uppercase, lowercase, number, and special character
+      - Phone: Must be in international format starting with '+' (optional)
+      - Tax Code: Must be unique if provided (optional)
+      
+    operationId: registerUser
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/create-user-dto.yml#/CreateUserDto'
+          examples:
+            minimal_user:
+              summary: Minimal user registration
+              description: Registration with only required fields
+              value:
+                email: "john.doe@example.com"
+                password: "StrongP@ssw0rd123"
+            complete_user:
+              summary: Complete user registration
+              description: Registration with all available fields
+              value:
+                email: "jane.smith@example.com"
+                password: "SecureP@ss123"
+                phone: "+1234567890"
+                fullName: "Jane Smith"
+                address: "123 Main St, City, State 12345"
+                companyName: "Tech Solutions Inc"
+                taxCode: "TAX123456789"
+            business_user:
+              summary: Business user registration
+              description: Registration for a business account
+              value:
+                email: "business@company.com"
+                password: "BusinessP@ss456"
+                phone: "+9876543210"
+                fullName: "John Business"
+                companyName: "Global Enterprises Ltd"
+                taxCode: "BUS987654321"
+                address: "456 Business Ave, Corporate City, CC 54321"
+    responses:
+      '201':
+        description: User registered successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/user-response.yml#/UserResponse'
+            examples:
+              success_response:
+                summary: Successful registration
+                value:
+                  id: "550e8400-e29b-41d4-a716-446655440000"
+                  email: "john.doe@example.com"
+                  emailVerified: false
+                  emailVerificationToken: null
+                  verifiedAt: null
+                  phone: "+1234567890"
+                  isPhoneVerified: false
+                  address: "123 Main St, City, State 12345"
+                  avatarUrl: null
+                  bio: null
+                  fullName: "John Doe"
+                  companyName: "Tech Solutions Inc"
+                  username: null
+                  taxCode: "TAX123456789"
+                  isActive: true
+                  bannedUntil: null
+                  banReason: null
+                  createdAt: "2025-11-05T10:30:00.000Z"
+                  updatedAt: "2025-11-05T10:30:00.000Z"
+      '400':
+        description: Bad Request - Invalid input data
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/errors.yml#/ValidationError'
+            examples:
+              validation_error:
+                summary: Validation failed
+                value:
+                  statusCode: 400
+                  message:
+                    - "email must be a valid email"
+                    - "password is not strong enough"
+                    - "phone must be a valid phone number"
+                  error: "Bad Request"
+              missing_required_fields:
+                summary: Missing required fields
+                value:
+                  statusCode: 400
+                  message:
+                    - "email should not be empty"
+                    - "password should not be empty"
+                  error: "Bad Request"
+      '409':
+        description: Conflict - User already exists
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/errors.yml#/ConflictError'
+            examples:
+              email_exists:
+                summary: Email already registered
+                value:
+                  statusCode: 409
+                  message: "User with this email already exists"
+                  error: "Conflict"
+              tax_code_exists:
+                summary: Tax code already exists
+                value:
+                  statusCode: 409
+                  message: "User with this tax code already exists"
+                  error: "Conflict"
+      '500':
+        description: Internal Server Error
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/errors.yml#/InternalServerError'
+            examples:
+              server_error:
+                summary: Database connection error
+                value:
+                  statusCode: 500
+                  message: "Internal server error"
+                  error: "Internal Server Error"

@@ -1,0 +1,119 @@
+user_profile:
+  get:
+    tags:
+      - User Management
+    summary: Get user profile by email
+    description: |
+      Retrieves user profile information by email address.
+      
+      **Usage:**
+      - Provide the email address as a query parameter
+      - Returns full user profile information (excluding sensitive data like password)
+      - Useful for user lookup and profile display
+      
+      **Security Note:**
+      - This endpoint may require authentication in production
+      - Consider implementing proper access controls
+      
+    operationId: getUserProfile
+    parameters:
+      - name: email
+        in: query
+        required: true
+        description: Email address of the user to retrieve
+        schema:
+          type: string
+          format: email
+        example: "john.doe@example.com"
+    responses:
+      '200':
+        description: User profile retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/user-response.yml#/UserResponse'
+            examples:
+              user_found:
+                summary: User profile found
+                value:
+                  id: "550e8400-e29b-41d4-a716-446655440000"
+                  email: "john.doe@example.com"
+                  emailVerified: true
+                  emailVerificationToken: null
+                  verifiedAt: "2025-11-01T08:30:00.000Z"
+                  phone: "+1234567890"
+                  isPhoneVerified: true
+                  address: "123 Main St, City, State 12345"
+                  avatarUrl: "https://example.com/avatars/john-doe.jpg"
+                  bio: "Software developer with 5 years of experience"
+                  fullName: "John Doe"
+                  companyName: "Tech Solutions Inc"
+                  username: "johndoe"
+                  taxCode: "TAX123456789"
+                  isActive: true
+                  bannedUntil: null
+                  banReason: null
+                  createdAt: "2025-10-15T10:30:00.000Z"
+                  updatedAt: "2025-11-05T10:30:00.000Z"
+              business_user:
+                summary: Business user profile
+                value:
+                  id: "660f9500-f39c-52e5-b827-557766551111"
+                  email: "business@company.com"
+                  emailVerified: true
+                  emailVerificationToken: null
+                  verifiedAt: "2025-10-20T14:15:00.000Z"
+                  phone: "+9876543210"
+                  isPhoneVerified: true
+                  address: "456 Business Ave, Corporate City, CC 54321"
+                  avatarUrl: null
+                  bio: "Business account for Global Enterprises"
+                  fullName: "John Business"
+                  companyName: "Global Enterprises Ltd"
+                  username: "globalent"
+                  taxCode: "BUS987654321"
+                  isActive: true
+                  bannedUntil: null
+                  banReason: null
+                  createdAt: "2025-10-18T09:00:00.000Z"
+                  updatedAt: "2025-11-03T16:45:00.000Z"
+      '400':
+        description: Bad Request - Invalid email format
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/errors.yml#/ValidationError'
+            examples:
+              invalid_email:
+                summary: Invalid email format
+                value:
+                  statusCode: 400
+                  message:
+                    - "email must be a valid email"
+                  error: "Bad Request"
+              missing_email:
+                summary: Missing email parameter
+                value:
+                  statusCode: 400
+                  message:
+                    - "email query parameter is required"
+                  error: "Bad Request"
+      '404':
+        description: User not found
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/errors.yml#/NotFoundError'
+            examples:
+              user_not_found:
+                summary: User with email not found
+                value:
+                  statusCode: 404
+                  message: "User not found"
+                  error: "Not Found"
+      '500':
+        description: Internal Server Error
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/errors.yml#/InternalServerError'

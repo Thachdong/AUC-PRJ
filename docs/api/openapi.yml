@@ -1,0 +1,96 @@
+openapi: 3.0.3
+info:
+  title: AUC API Documentation
+  description: |
+    # AUC Application API
+    
+    This is the complete API documentation for the AUC application.
+    
+    ## Authentication
+    Most endpoints require authentication using JWT tokens.
+    
+    ## Error Handling
+    All endpoints follow consistent error response patterns:
+    - `400` - Bad Request (validation errors)
+    - `401` - Unauthorized (authentication required)
+    - `403` - Forbidden (insufficient permissions)
+    - `404` - Not Found (resource doesn't exist)
+    - `409` - Conflict (resource already exists)
+    - `500` - Internal Server Error
+    
+    ## Rate Limiting
+    API requests are rate limited to prevent abuse.
+    
+  version: 1.0.0
+  contact:
+    name: AUC Development Team
+    email: dev@auc.com
+    url: https://github.com/Thachdong/AUC-PRJ
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://staging-api.auc.com
+    description: Staging server
+  - url: https://api.auc.com
+    description: Production server
+
+# External documentation files
+paths:
+  # User Management Endpoints
+  /user/register:
+    $ref: './paths/user-register.yml#/user_register'
+  /user/profile:
+    $ref: './paths/user-profile.yml#/user_profile'
+  
+  # Future endpoints can be added here
+  # /auth/login:
+  #   $ref: './paths/auth-login.yml#/auth_login'
+  # /auth/refresh:
+  #   $ref: './paths/auth-refresh.yml#/auth_refresh'
+
+components:
+  # Import all schemas from separate files
+  schemas:
+    # User related schemas
+    CreateUserDto:
+      $ref: './schemas/create-user-dto.yml#/CreateUserDto'
+    UserResponse:
+      $ref: './schemas/user-response.yml#/UserResponse'
+    
+    # Common error schemas
+    ValidationError:
+      $ref: './schemas/errors.yml#/ValidationError'
+    ConflictError:
+      $ref: './schemas/errors.yml#/ConflictError'
+    NotFoundError:
+      $ref: './schemas/errors.yml#/NotFoundError'
+    UnauthorizedError:
+      $ref: './schemas/errors.yml#/UnauthorizedError'
+    ForbiddenError:
+      $ref: './schemas/errors.yml#/ForbiddenError'
+    InternalServerError:
+      $ref: './schemas/errors.yml#/InternalServerError'
+  
+  # Security schemes for future authentication
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
+
+# Global security (can be overridden per endpoint)
+# security:
+#   - BearerAuth: []
+
+tags:
+  - name: User Management
+    description: Operations related to user account management and profiles
+  - name: Authentication
+    description: User authentication and authorization operations
+  - name: Profile
+    description: User profile management operations

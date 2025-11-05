@@ -1,0 +1,99 @@
+ValidationError:
+  type: object
+  properties:
+    statusCode:
+      type: integer
+      example: 400
+      description: HTTP status code
+    message:
+      type: array
+      items:
+        type: string
+      example:
+        - "email must be a valid email"
+        - "password is not strong enough"
+      description: List of validation error messages
+    error:
+      type: string
+      example: "Bad Request"
+      description: Error type
+
+ConflictError:
+  type: object
+  properties:
+    statusCode:
+      type: integer
+      example: 409
+      description: HTTP status code
+    message:
+      type: string
+      example: "User with this email already exists"
+      description: Error message
+    error:
+      type: string
+      example: "Conflict"
+      description: Error type
+
+NotFoundError:
+  type: object
+  properties:
+    statusCode:
+      type: integer
+      example: 404
+      description: HTTP status code
+    message:
+      type: string
+      example: "User not found"
+      description: Error message
+    error:
+      type: string
+      example: "Not Found"
+      description: Error type
+
+UnauthorizedError:
+  type: object
+  properties:
+    statusCode:
+      type: integer
+      example: 401
+      description: HTTP status code
+    message:
+      type: string
+      example: "Unauthorized access"
+      description: Error message
+    error:
+      type: string
+      example: "Unauthorized"
+      description: Error type
+
+ForbiddenError:
+  type: object
+  properties:
+    statusCode:
+      type: integer
+      example: 403
+      description: HTTP status code
+    message:
+      type: string
+      example: "Access forbidden"
+      description: Error message
+    error:
+      type: string
+      example: "Forbidden"
+      description: Error type
+
+InternalServerError:
+  type: object
+  properties:
+    statusCode:
+      type: integer
+      example: 500
+      description: HTTP status code
+    message:
+      type: string
+      example: "Internal server error"
+      description: Error message
+    error:
+      type: string
+      example: "Internal Server Error"
+      description: Error type
